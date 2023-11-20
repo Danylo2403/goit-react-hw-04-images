@@ -1,39 +1,32 @@
-import React, { Component } from 'react';
-import {Modal} from 'components/Modal/Modal';
+import React, { useState } from 'react';
+import { Modal } from 'components/Modal/Modal';
 import { ImageItem, Image } from './ImageGalleryItem.styled';
 
-class ImageGalleryItem extends Component {
-  state = {
-    isModalOpen: false,
+const ImageGalleryItem = ({ webformatURL, largeImageURL }) => {
+  // Використання хука useState для відстеження стану модального вікна
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  // Функція для відкриття модального вікна
+  const openModal = () => {
+    setModalOpen(true);
   };
 
-  openModal = () => {
-    this.setState({ isModalOpen: true });
+  // Функція для закриття модального вікна
+  const closeModal = () => {
+    setModalOpen(false);
   };
 
-  closeModal = () => {
-    this.setState({ isModalOpen: false });
-  };
-
-  render() {
-    const { isModalOpen } = this.state;
-    const { webformatURL, largeImageURL } = this.props;
-
-    return (
-      <>
-        <ImageItem onClick={this.openModal}>
-          <Image src={webformatURL} alt="This is the result of your search" />
-        </ImageItem>
-        {isModalOpen && (
-          <Modal
-            imageUrl={largeImageURL}
-            isModalOpen={isModalOpen}
-            closeModal={this.closeModal}
-          />
-        )}
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <ImageItem onClick={openModal}>
+        <Image src={webformatURL} alt="This is the result of your search" />
+      </ImageItem>
+      {/* Використання модального вікна замість компонента класу */}
+      {isModalOpen && (
+        <Modal imageUrl={largeImageURL} isModalOpen={isModalOpen} closeModal={closeModal} />
+      )}
+    </>
+  );
+};
 
 export default ImageGalleryItem;
